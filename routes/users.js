@@ -51,10 +51,26 @@ router.get('/username/:username', async (req, res) => {
     }
 });
 
+//Get users by mail
+router.get('/mail/:mail', async (req, res) => {
+    console.log(req.params.username);
+    try {
+        const users = await User.findOne({login : req.params.mail}, function(err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.json(result);
+            }
+        }).select("-password")
+    }catch(err){
+        console.log(err);
+    }
+});
+
 //Create a new User
 router.post('/', async (req, res) => {
 
-
+    console.log('create user');
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
         const user = new User({
@@ -78,7 +94,7 @@ router.patch('/:userId', auth, async (req, res) => {
     try {
         const users = await User.updateOne(
             { _id: req.params.userId },
-            {$set: {friends: req.body.friends, role: req.body.role}},
+            {$set: {friends: req.body.friends, role: req.body.role, inexistantFriends: req.body.inexistantFriends}},
             function(err, result) {
             if (err) {
                 console.log(err);

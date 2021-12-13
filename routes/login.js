@@ -9,6 +9,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+    console.log(req);
     try{
         const user = await User.findOne({login: req.body.login})
         if (user == null) {

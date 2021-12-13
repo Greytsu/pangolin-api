@@ -18,6 +18,9 @@ const UserSchema = mongoose.Schema({
     friends: [{
         type: String
     }],
+    inexistantFriends: [{
+        type: String
+    }],
     role:{
         type: String
     },
